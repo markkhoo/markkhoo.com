@@ -1,0 +1,255 @@
+:root {
+    --colorBackground: rgb(25, 30, 34);
+    --colorSecondary: rgba(112, 128, 144, 0.1);
+    --colorButtonHover: rgba(112, 128, 144, 0.25);
+    --colorFontPrimary: #fff;
+    --colorFontSecondary: rgb(255, 201, 101);
+}
+
+a, p, h2, h3, h4, h5, h6 {
+    color: var(--colorFontPrimary);
+    font-family: 'IBM Plex Mono', monospace;
+    user-select: none;
+}
+
+h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    user-select: none;
+}
+
+a:hover, header h1:hover {
+    color: var(--colorFontSecondary);
+    transition: color 120ms linear;
+    cursor: pointer;
+}
+
+a:active, header h1:active {
+    color: white;
+    text-shadow: 2px 2px var(--colorFontSecondary);
+    transition: all 120ms linear;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+.not-selected {
+    color: var(--colorFontPrimary);
+}
+
+.selected {
+    color: var(--colorFontSecondary);
+}
+
+/* Main Containers */
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--colorBackground);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+header h1 {
+    padding: 0.75em .85em;
+}
+
+#a_display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1024px;
+    margin: 0 1em;
+}
+
+/* About Me Div */
+
+#about {
+    display: flex;
+    align-items: center;
+}
+
+#about img {
+    border-radius: 100%;
+    height: 10em;
+    width: 10em;
+    margin: 0 1em;
+}
+
+#about p {
+    margin: 0 1em;
+    line-height: 1.25em;
+    max-height: 10em;
+    overflow: auto;
+}
+
+/* Projects Div */
+
+#project {
+    display: flex;
+    flex-direction: row;
+    max-height: 10em;
+    overflow: auto;
+}
+
+#project div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 8rem;
+    margin: 1em 0.25em;
+    padding: 1rem;
+    border: 0.5rem solid rgb(24, 24, 24);
+    border-radius: 1rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#project div h2, #project div a {
+    display: inline-block;
+    line-height: 1.25em;
+    text-shadow: 0 0 2px #000000, 0 0 4px #000000, 0 0 8px #000000, 0 0 10px #000000, 0 0 12px #000000;
+}
+
+#project div h2 {
+    font-size: 125%;
+    padding: 0 0 0.5em 0;
+}
+
+#proj1 {background-image: url(../images/Clicky.gif);}
+#proj2 {background-image: url(../images/trail-scout.gif);}
+#proj3 {background-image: url(../images/shutterstock_1072726052.jpg);}
+
+/* Contact Div */
+
+#contact {
+    display: flex;
+}
+
+#contact a {
+    border-radius: 100%;
+    height: 10em;
+    width: 10em;
+    background-size: cover;
+    margin: 0 1em;
+}
+
+#email {background-image: url(../images/iconfinder_Email_4550857.png);}
+#linkd {background-image: url(../images/iconfinder_linkedin_291709.png);}
+#githb {background-image: url(../images/githubIcon.png);}
+#resum {
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    letter-spacing: 0.5em;
+}
+
+/* Repos Div */
+
+#repos {
+    max-height: 10em;
+    overflow: auto;
+}
+
+#repos a {
+    display: block;
+    margin: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--colorSecondary);
+    border-radius: 1rem;
+}
+
+#repos a:hover {
+    background-color: var(--colorButtonHover);
+    transition: all 120ms linear;
+}
+
+/* Animation */
+#background-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+}
+/* Code from Daniel Österman: https://codepen.io/goodkatz/pen/LYPGxQz?editors=1100 */
+.parallax>use {
+    animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+.parallax>use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+}
+
+.parallax>use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+}
+
+.parallax>use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+}
+
+.parallax>use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+}
+
+@keyframes move-forever {
+    0% {
+        transform: translate3d(-90px, 0, 0);
+    }
+    100% {
+        transform: translate3d(85px, 0, 0);
+    }
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 950px) {
+    header {
+        flex-direction: column;
+    }
+    #a_display {
+        flex-direction: column;
+    }
+    #about img {
+        height: 8em;
+        width: 8em;
+    }
+    #project {
+        flex-direction: column;
+        max-height: auto;
+    }
+    #contact {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #contact a {
+        height: 8em;
+        width: 8em;
+        margin: 0.5em;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #about {
+        display: flex;
+        flex-direction: column;
+    }
+    #about p {
+        padding: 1em;
+    }
+}
