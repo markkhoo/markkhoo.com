@@ -1,5 +1,8 @@
 <!-- Adapted from: https://svelte.dev/repl/8b974ea483c648fba362a1e9f3dbc29f?version=4.2.8 -->
 <script lang="ts">
+  import type { Color } from '$lib/types/css';
+
+  export let backgroundColor: Color = '#e5e5e5';
   export let initPosLeft: number = 0;
   export let initPosTop: number = 0;
   export let initHeight: number = 200;
@@ -17,12 +20,60 @@
     return property in element;
   }
 
-  // function move(element) {
-  //   return {
-  //     destroy() {
-  //     }
-  //   }
-  // }
+  function move(element: HTMLElement) {
+    let initialPos: { x: number; y: number } | null = null;
+    let isMoving = false;
+
+    const mover = document.createElement('div');
+    mover.classList.add('mover');
+    mover.addEventListener('mousedown', onMousedown);
+    document.addEventListener('mousemove', onMousemove);
+    document.addEventListener('mouseup', onMouseup);
+
+    element.appendChild(mover);
+
+    function onMousedown(event: MouseEvent) {
+      if (!event.target || !element.parentElement) return;
+
+      const rect = element.getBoundingClientRect();
+
+      initialPos = { x: event.pageX - rect.left, y: event.pageY - rect.top };
+      isMoving = true;
+    }
+
+    function onMousemove(event: MouseEvent) {
+      if (!initialPos || !isMoving) return;
+
+      const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      let newLeft = event.pageX - initialPos.x;
+      let newTop = event.pageY - initialPos.y;
+
+      if (newLeft < 0) newLeft = 0;
+      if (newTop < 0) newTop = 0;
+      if (newLeft + element.offsetWidth > windowWidth) newLeft = windowWidth - element.offsetWidth;
+      if (newTop + element.offsetHeight > windowHeight) newTop = windowHeight - element.offsetHeight;
+
+      element.style.left = `${newLeft}px`;
+      element.style.top = `${newTop}px`;
+    }
+
+    function onMouseup(event: MouseEvent) {
+      if (!event.target) return;
+
+      isMoving = false;
+    }
+
+    return {
+      destroy() {
+        window.removeEventListener('mousemove', onMousemove);
+        window.removeEventListener('mouseup', onMouseup);
+
+        element.removeChild(mover);
+      }
+    };
+  }
 
   function resize(element: HTMLElement) {
     let active: HTMLDivElementWithDirection | null = null;
@@ -175,7 +226,7 @@
     return {
       destroy() {
         window.removeEventListener('mousemove', onMove);
-        window.removeEventListener('mousemove', onMousedown);
+        window.removeEventListener('mouseup', onMouseup);
 
         grabbers.forEach((grabber) => {
           element.removeChild(grabber);
@@ -186,8 +237,9 @@
 </script>
 
 <div
-  style={`height: ${initHeight}px; width: ${initWidth}px; left: ${initPosLeft}px; top: ${initPosTop}px; z-index: ${zIndex};`}
+  style={`height: ${initHeight}px; width: ${initWidth}px; left: ${initPosLeft}px; top: ${initPosTop}px; z-index: ${zIndex}; background: ${backgroundColor}`}
   class="box"
+  use:move
   use:resize
 >
   <slot />
@@ -197,8 +249,6 @@
   .box {
     position: absolute;
     user-select: none;
-
-    background: #e5e5e5;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -271,5 +321,15 @@
     right: -10px;
     cursor: se-resize;
     border-radius: 100%;
+  }
+
+  :global(.mover) {
+    position: absolute;
+    box-sizing: border-box;
+    cursor: grab;
+
+    height: 20px;
+    width: 100%;
+    top: 5px;
   }
 </style>
