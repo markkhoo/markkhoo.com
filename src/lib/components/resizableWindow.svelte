@@ -1,15 +1,14 @@
 <!-- Adapted from: https://svelte.dev/repl/8b974ea483c648fba362a1e9f3dbc29f?version=4.2.8 -->
 <script lang="ts">
-  import type { Color } from '$lib/types/css';
-
-  export let backgroundColor: Color = '#e5e5e5';
+  export let backgroundColor: string = '#e5e5e5';
   export let initPosLeft: number = 0;
   export let initPosTop: number = 0;
   export let initHeight: number = 200;
   export let initWidth: number = 200;
   export let minHeight: number = 100;
   export let minWidth: number = 100;
-  export let zIndex: number | 'auto' = 'auto';
+  export let zIndex: () => number;
+  export let zIndexInit: number = 0;
 
   interface HTMLDivElementWithDirection extends HTMLDivElement {
     direction: 'east' | 'west' | 'north' | 'south' | 'northwest' | 'northeast' | 'southwest' | 'southeast';
@@ -233,14 +232,30 @@
         });
       }
     };
+
+  }
+
+  function bringToFront(element: HTMLElement) {
+    function onMousedown() {
+      element.style.zIndex = `${zIndex()}`;
+    }
+
+    element.addEventListener('mousedown', onMousedown);
+
+    return {
+      destroy() {
+        element.removeEventListener('mousedown', onMousedown);
+      }
+    };
   }
 </script>
 
 <div
-  style={`height: ${initHeight}px; width: ${initWidth}px; left: ${initPosLeft}px; top: ${initPosTop}px; z-index: ${zIndex}; background: ${backgroundColor}`}
+  style={`height: ${initHeight}px; width: ${initWidth}px; left: ${initPosLeft}px; top: ${initPosTop}px; z-index: ${zIndexInit}; background: ${backgroundColor}`}
   class="box"
   use:move
   use:resize
+  use:bringToFront
 >
   <slot />
 </div>
