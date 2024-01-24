@@ -232,7 +232,6 @@
         });
       }
     };
-
   }
 
   function bringToFront(element: HTMLElement) {
