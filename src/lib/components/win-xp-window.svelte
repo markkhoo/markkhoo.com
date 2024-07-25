@@ -1,12 +1,24 @@
 <script lang="ts">
   export let headerText: string = 'Header';
+
+  function buttonClick() {
+    console.log('button clicked');
+  }
 </script>
 
 <div class="grid h-full w-full grid-cols-1 grid-rows-[25px,auto]">
   <div class="xp-header font-win-xp">
     <div class=" h-full w-full bg-win-xp-blue" />
-    <header class="absolute">
-      <h1 class="header-title">{headerText}</h1>
+    <header class="absolute flex">
+      <div class=""></div>
+      <div class="flex-1">
+        <h1 class="header-title">{headerText}</h1>
+      </div>
+      <div class="flex items-center justify-center gap-[1px] px-1">
+        <button class="header-button-color h-5 w-5" on:click={buttonClick} />
+        <button class="header-button-color h-5 w-5" on:click={buttonClick} />
+        <button class="header-button-color-close h-5 w-5" on:click={buttonClick} />
+      </div>
     </header>
   </div>
   <div class="h-full w-full bg-win-xp-blue px-[3px] pb-[3px]">
@@ -17,6 +29,30 @@
 </div>
 
 <style>
+  .header-button-color {
+    box-shadow: rgb(70, 70, 255) 0px -1px 2px 1px inset;
+    background-image: radial-gradient(
+      circle at 90% 90%,
+      rgb(0, 84, 233) 0%,
+      rgb(34, 99, 213) 55%,
+      rgb(68, 121, 228) 70%,
+      rgb(163, 187, 236) 90%,
+      white 100%
+    );
+  }
+
+  .header-button-color-close {
+    box-shadow: rgb(218, 70, 0) 0px -1px 2px 1px inset;
+    background-image: radial-gradient(
+      circle at 90% 90%,
+      rgb(204, 70, 0) 0%,
+      rgb(220, 101, 39) 55%,
+      rgb(205, 117, 70) 70%,
+      rgb(255, 204, 178) 90%,
+      white 100%
+    );
+  }
+
   .header-title {
     text-shadow: rgb(0, 0, 0) 1px 1px;
     color: white;
