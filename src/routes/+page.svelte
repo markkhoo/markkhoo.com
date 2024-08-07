@@ -15,7 +15,7 @@
     <WinXPWindow></WinXPWindow>
   </ResizableWindow>
   <ResizableWindow zIndex={bringToFront} initPosTop={50} initPosLeft={50}>
-    <WinXPWindow headerText="hello world">
+    <WinXPWindow headerText="My Computer">
       <p>hello world</p>
     </WinXPWindow>
   </ResizableWindow>
