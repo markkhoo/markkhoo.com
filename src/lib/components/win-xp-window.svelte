@@ -1,4 +1,6 @@
 <script lang="ts">
+  import myComputer from '$lib/assets/my-computer.png';
+
   export let headerText: string = 'Header';
 
   function buttonClick() {
@@ -10,9 +12,11 @@
   <div class="xp-header font-win-xp">
     <div class="h-full w-full bg-win-xp-blue" />
     <header class="absolute flex">
-      <div class=""></div>
-      <div class="flex-1">
-        <h1 class="header-title">{headerText}</h1>
+      <div class="flex items-center justify-center">
+        <img alt="Windows XP 'My Computer' Icon" class="ml-1 mr-0.5 h-4 w-4" src={myComputer} />
+      </div>
+      <div class="flex flex-1 items-center overflow-hidden overflow-ellipsis whitespace-nowrap">
+        <h1 class="header-title mt-0.5 text-xs font-bold">{headerText}</h1>
       </div>
       <div class="pointer-events-auto flex items-center justify-center gap-[1px] px-1">
         <button class="header-button-minimize" on:click={buttonClick}>
@@ -137,12 +141,12 @@
   }
 
   .header-title {
-    text-shadow: rgb(0, 0, 0) 1px 1px;
+    text-shadow: rgba(0, 0, 0, 0.75) 1px 1px 2px;
     color: white;
 
     pointer-events: none;
     padding-right: 5px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
