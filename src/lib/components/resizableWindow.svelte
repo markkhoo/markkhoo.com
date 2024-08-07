@@ -367,9 +367,9 @@
     position: absolute;
     box-sizing: border-box;
     /* cursor: grab; */
-
     height: 22px;
-    width: 100%;
+    width: calc(100% - 66px);
     top: 3px;
+    left: 0px;
   }
 </style>
