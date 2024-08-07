@@ -37,7 +37,7 @@
     document.addEventListener('mousemove', onMousemove);
     document.addEventListener('mouseup', onMouseup);
 
-    element.appendChild(mover);
+    element.prepend(mover);
 
     function onMousedown(event: MouseEvent) {
       if (!event.target || !element.parentElement) return;
@@ -366,10 +366,10 @@
   :global(.mover) {
     position: absolute;
     box-sizing: border-box;
-    cursor: grab;
-
+    /* cursor: grab; */
     height: 22px;
-    width: 100%;
+    width: calc(100% - 66px);
     top: 3px;
+    left: 0px;
   }
 </style>
