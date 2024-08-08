@@ -1,6 +1,7 @@
 <script lang="ts">
   import ResizableWindow from '$lib/components/resizableWindow.svelte';
   import WinXPWindow from '$lib/components/win-xp-window.svelte';
+  import WinXpTaskbar from '$lib/components/win-xp-taskbar.svelte';
 
   let zIndex = 0;
 
@@ -19,11 +20,13 @@
       <p>hello world</p>
     </WinXPWindow>
   </ResizableWindow>
+  <WinXpTaskbar />
 </main>
 
 <style>
   main {
     display: block;
     position: relative;
+    height: 100vh;
   }
 </style>

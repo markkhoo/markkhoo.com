@@ -1,5 +1,5 @@
 <script lang="ts">
-  import myComputer from '$lib/assets/my-computer.png';
+  import myComputer from '$lib/assets/explorer.exe_14_100-11.png';
 
   export let headerText: string = 'Header';
 
