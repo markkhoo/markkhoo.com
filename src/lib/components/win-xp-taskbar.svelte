@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import type { KeyType, WindowType } from '$lib/types';
   import StartButton from '$lib/assets/start_button.png';
   import SystemTrayArrow from '$lib/assets/system_tray_arrow.png';
   import SoundSettings from '$lib/assets/mmsys.cpl_14_4354-7.png';
@@ -16,6 +17,8 @@
   import TaskMgr10 from '$lib/assets/taskmgr/taskmgr.exe_14_136.png';
   import TaskMgr11 from '$lib/assets/taskmgr/taskmgr.exe_14_137.png';
   import TaskMgr12 from '$lib/assets/taskmgr/taskmgr.exe_14_138.png';
+
+  export let windowMap: Map<KeyType, WindowType> = new Map<KeyType, WindowType>();
 
   let currentTime = '';
   let currentTaskMgr = TaskMgr01;
@@ -34,7 +37,6 @@
     TaskMgr11,
     TaskMgr12
   ] as const;
-
   const weights = [256, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1] as const;
 
   function getRandomWeightedImage() {
@@ -71,15 +73,32 @@
 </script>
 
 <footer>
-  <div class="flex-grow">
+  <div class="flex flex-grow">
     <div class="w-28 overflow-hidden">
       <button class="start-button">
         <img alt="Windows XP Start Button" src={StartButton} />
       </button>
     </div>
+    <div class="flex flex-grow pb-[3px] pt-[5px]">
+      {#each windowMap as [key, window]}
+        {#if window.state !== 'closed'}
+          <button
+            class={`${window.active ? 'footer-window-active' : 'footer-window'} relative min-w-[24px] max-w-[150px] flex-1 rounded-sm`}
+            on:click={window.onTaskbarClick}
+          >
+            <img alt="Windows XP Taskbar Icon" class="m-1 h-[15px] w-[15px]" src={window.src} />
+            <p
+              class="footer-window-text overflow-hidden text-ellipsis whitespace-nowrap text-left text-[11px] font-normal text-white"
+            >
+              {key}
+            </p>
+          </button>
+        {/if}
+      {/each}
+    </div>
   </div>
   <div class="taskbar-right">
-    <div class="system-tray-arrow">
+    <div class="system-tray-arrow w-[19px]">
       <button>
         <img alt="Windows XP System Tray Arrow" src={SystemTrayArrow} />
       </button>
@@ -120,7 +139,51 @@
     );
   }
 
+  .start-button {
+    position: relative;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+  }
+
+  .start-button:hover {
+    top: -30px;
+  }
+
+  .start-button:hover:active {
+    top: -60px;
+  }
+
+  .footer-window {
+    background-color: rgb(60, 129, 243);
+    box-shadow:
+      rgba(0, 0, 0, 0.3) -1px 0px inset,
+      rgba(255, 255, 255, 0.2) 1px 1px 1px inset;
+  }
+
+  .footer-window:hover {
+    background-color: rgb(83, 163, 255);
+    box-shadow:
+      rgba(0, 0, 0, 0.3) -1px 0px inset,
+      rgba(255, 255, 255, 0.2) 1px 1px 1px inset;
+  }
+
+  .footer-window:active,
+  .footer-window-active {
+    background-color: rgb(30, 82, 183);
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0px 0px 1px 1px inset,
+      rgba(0, 0, 0, 0.7) 1px 0px 1px inset;
+  }
+
+  .footer-window-text {
+    position: absolute;
+    top: 3px;
+    left: 24px;
+    right: 8px;
+  }
+
   .taskbar-right {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -128,7 +191,7 @@
     flex-shrink: 0;
     width: 130px;
     padding: 0px 10px;
-    margin-left: 10px;
+    margin-left: 18px;
     background: linear-gradient(
       rgb(12, 89, 185) 1%,
       rgb(19, 158, 233) 6%,
@@ -145,20 +208,6 @@
     );
     border-left: 1px solid rgb(16, 66, 175);
     box-shadow: rgb(24, 187, 255) 1px 0px 1px inset;
-  }
-
-  .start-button {
-    position: relative;
-    overflow-clip-margin: content-box;
-    overflow: clip;
-  }
-
-  .start-button:hover {
-    top: -30px;
-  }
-
-  .start-button:hover:active {
-    top: -60px;
   }
 
   .system-tray-arrow {

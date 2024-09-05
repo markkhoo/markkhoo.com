@@ -1,11 +1,12 @@
 <script lang="ts">
+  import type { HTMLImgAttributes } from 'svelte/elements';
   import myComputer from '$lib/assets/explorer.exe_14_100-11.png';
 
+  export let headerIcon: HTMLImgAttributes['src'] = myComputer;
   export let headerText: string = 'Header';
-
-  function buttonClick() {
-    console.log('button clicked');
-  }
+  export let onMinimizeClick: () => void = () => console.log(`${headerText}: minimized clicked`);
+  export let onMaximizeClick: () => void = () => console.log(`${headerText}: maximized clicked`);
+  export let onCloseClick: () => void = () => console.log(`${headerText}: close clicked`);
 </script>
 
 <div class="grid h-full w-full grid-cols-1 grid-rows-[26px,auto]">
@@ -13,19 +14,19 @@
     <div class="h-full w-full bg-win-xp-blue" />
     <header class="absolute flex">
       <div class="flex items-center justify-center">
-        <img alt="Windows XP 'My Computer' Icon" class="ml-1 mr-0.5 h-4 w-4" src={myComputer} />
+        <img alt="Windows XP Window Icon" class="ml-1 mr-0.5 h-4 w-4" src={headerIcon} />
       </div>
       <div class="flex flex-1 items-center overflow-hidden overflow-ellipsis whitespace-nowrap">
         <h1 class="header-title mt-0.5 text-xs font-bold">{headerText}</h1>
       </div>
       <div class="pointer-events-auto flex items-center justify-center gap-[1px] px-1">
-        <button class="header-button-minimize" on:click={buttonClick}>
+        <button class="header-button-minimize" on:click={onMinimizeClick}>
           <div />
         </button>
-        <button class="header-button-maximize" on:click={buttonClick}>
+        <button class="header-button-maximize" on:click={onMaximizeClick}>
           <div />
         </button>
-        <button class="header-button-close" on:click={buttonClick}>
+        <button class="header-button-close" on:click={onCloseClick}>
           <div />
           <div />
         </button>
